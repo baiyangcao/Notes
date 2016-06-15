@@ -80,3 +80,14 @@ MAXBUFFSIZE    442368
 ```
 sdeconfig -o import -f serverconfig.txt -u sde -p sde
 ```
+
+## ArcCatalog预览要素类`Network I/O error [SDE.GDB_UserMetaData]`
+
+---
+
+在ArcCatalog中预览要素类，因为要素类中的数据量太大，绘制缓慢，
+此时来回切换图层，报错`Network I/O error [SDE.GDB_UserMetaData]`  
+\
+怀疑是数据库中的数据由问题，便将数据库中的要素类导出到本地GDB文件地理数据库中，
+然后使用`数据管理工具--要素--修复分析`工具对每一个图层进行修复，会分析并修复数据问题，
+如：删除图形为空的要素等；修复完成后将数据拷贝回数据库，再切换便不会报错了
