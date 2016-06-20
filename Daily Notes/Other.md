@@ -81,7 +81,7 @@ MAXBUFFSIZE    442368
 sdeconfig -o import -f serverconfig.txt -u sde -p sde
 ```
 
-## ArcCatalog预览要素类`Network I/O error [SDE.GDB_UserMetaData]`
+## `ArcCatalog`预览要素类`Network I/O error [SDE.GDB_UserMetaData]`
 
 ---
 
@@ -89,5 +89,22 @@ sdeconfig -o import -f serverconfig.txt -u sde -p sde
 此时来回切换图层，报错`Network I/O error [SDE.GDB_UserMetaData]`  
 \
 怀疑是数据库中的数据由问题，便将数据库中的要素类导出到本地GDB文件地理数据库中，
-然后使用`数据管理工具--要素--修复分析`工具对每一个图层进行修复，会分析并修复数据问题，
+然后使用`数据管理工具--要素--修复几何`工具对每一个图层进行修复，会分析并修复数据问题，
 如：删除图形为空的要素等；修复完成后将数据拷贝回数据库，再切换便不会报错了
+
+## `Excel`下拉列表设置
+
+---
+
+ 1. 选择要设置下拉列表的单元格，菜单栏中选择`数据--数据验证`
+
+ 2. 在打开的`数据验证`窗口的`设置`标签页`验证条件--允许`下拉选项选择`序列`
+
+ 3. 然后在`来源`中输入下拉列表选项，可以是如下几种形式：
+
+     - 单击输入框后的按钮在Excel表中选择数据来源范围
+     
+     - 直接定义列表，形如：item1,item2,item3...
+
+     - 输入列表名称，形如：=MyList，其中列表名称可以在`公式--名称管理器`中查看，
+       可以通过在表格中选择数据来源范围，然后单击`公式--根据所选内容创建`来创建列表
