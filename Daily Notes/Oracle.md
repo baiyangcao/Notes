@@ -139,3 +139,122 @@ show parameter sga_max_size;
 show parameter sga_target;
 show parameter pga_aggregate_target;
 ```
+
+## `ORA-12514:TNS:监听程序当前无法识别连接描述符中请求的服务_监听程序不支持服务`
+
+---
+
+今天大黄蜂同学重启虚拟机之后再链接数据库就报了这个错，先查看了一下监听的状态
+
+```
+C:> lsnrctl status
+... ...
+服务摘要..
+服务 "CLRExtProc" 包含 1 个实例。
+  实例 "CLRExtProc", 状态 UNKNOWN, 包含此服务的 1 个处理程序...
+命令执行成功
+```
+
+监听中的服务并没有数据库实例`orcl`，检查了一下`listener.ora`文件，配置并没有问题，
+怀疑是数据库启动时出了问题，导致监听并没有找到数据库服务，
+为了连上数据库，在`listener.ora`文件中强制添加`orcl`的监听
+
+```
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = CLRExtProc)
+      (ORACLE_HOME = D:\app\Administrator\product\11.2.0\dbhome_1)
+      (PROGRAM = extproc)
+      (ENVS = "EXTPROC_DLLS=ONLY:D:\app\Administrator\product\11.2.0\dbhome_1\bin\oraclr11.dll")
+    )
+    # 以下是添加部分
+    (SID_DESC =
+      (GLOBAL_DBNAME = ORCL)
+      (ORACLE_HOME = D:\app\Administrator\product\11.2.0\dbhome_1)  
+      (SID_NAME = ORCL)
+    )
+  )
+```
+
+然后重启监听，让监听可以识别`orcl`服务
+
+```
+C:> lsnrctl stop
+... ...
+
+C:> lsnrctl start
+... ...
+服务 "ORCL" 包含 1 个实例。
+  实例 "ORCL", 状态 UNKNOWN, 包含此服务的 1 个处理程序...
+命令执行成功
+```
+
+然后连接Oracle数据库，尝试重启数据库
+
+```sql
+C:> sqlplus sys/sys@127.0.0.1/orcl as sysdba
+... ...
+
+SQL> shutdown immediate;
+ORA-01034 - Oracle not available
+ORA-27101 - shared memory realm does not exist
+```
+
+网上大部分说是`ORACL_HOME`或`ORACLE_SID`问题，可惜并不适用，
+后找到一篇说查看日志，日志路径位于`ORACLE_HOME\database\ORADIM.LOG`，
+日志中找到数据库启动时的报错信息如下：
+
+```
+Tue Jun 21 15:10:17 2016
+D:\app\Administrator\product\11.2.0\dbhome_1\bin\oradim.exe -startup -sid orcl -usrpwd *  -log oradim.log -nocheck 0 
+Tue Jun 21 15:10:33 2016
+ORA-00847: MEMORY_TARGET/MEMORY_MAX_TARGET and LOCK_SGA cannot be set together
+```
+
+继续查询报错信息`ORA-00847`，看起来是数据库系统参数设置的问题，先把`pfile`导出看一下
+
+```
+SQL> create pfile from spfile;
+```
+
+创建了之后宝宝傻眼了，不在`ORACLE_HOME/dbs`里啊！
+后来经查才知原来Windows下`pfile`的默认生成路径和linux下不一样，位于`$ORACLE_BASE\admin\db_name\pfile`
+然后打开`pfile`注释掉`MEMORY_TARGET`参数的设置
+
+```
+...
+# memory_target=898629632
+...
+```
+
+然后从`pfile`启动数据库，根据`pfile`生成`spfile`
+
+```sql
+SQL> startup pfile='D:\app\Administrator\admin\orcl\pfile\init.ora.115201614250';
+
+SQL> create spfile from pfile='D:\app\Administrator\admin\orcl\pfile\init.ora.115201614250';
+```
+
+然后便可以重启数据库了，最后将`listener.ora`还原，重启服务器，再查看监听状态就可以看到`orcl`服务正常了
+
+```
+C:> lsnrctl status
+
+... ...
+服务摘要..
+服务 "CLRExtProc" 包含 1 个实例。
+  实例 "CLRExtProc", 状态 UNKNOWN, 包含此服务的 1 个处理程序...
+服务 "ORCL" 包含 1 个实例。
+  实例 "orcl", 状态 READY, 包含此服务的 1 个处理程序...
+服务 "orclXDB" 包含 1 个实例。
+  实例 "orcl", 状态 READY, 包含此服务的 1 个处理程序...
+命令执行成功
+```
+
+
+> 参考链接：  
+> 1. [连接本地Oracle 11g时 ORA-12514:TNS:监听程序当前无法识别连接描述符中请求的服务](http://www.cnblogs.com/lz-wolf/archive/2012/11/15/2771266.html)  
+> 2. [解决连接Oracle 11g报ORA-01034和ORA-27101的错误](http://www.linuxidc.com/Linux/2012-05/59790.htm)  
+> 3. [pfile和spfile全攻略](http://wenku.baidu.com/link?url=dZK2zvpnXAgoaQRxexRFOHWyZTRlFWks0oef08VrNqFBDJsQ35ycJ2ZrqsJF5SSpYjgGHim4JEP908sa54AWCKRfubP-WPsC_2_by4STqyW)  
+> 4. [oracle错误实践之一：ora-00847](http://blog.sina.com.cn/s/blog_7e662b4a0100vbpg.html)
