@@ -286,3 +286,57 @@ public override void StopListening(object source)
 WeakEventManager<TEventSource, TEventArgs>.AddHandler(TEventSource source,
     string eventName, Delegate eventHandler);
 ```
+
+## 字符串和正则表达式
+
+---
+
+#### 字符串
+
+`String.IndexOfAny`和`String.LastIndexOfAny`方法可以用于一组字符串在某个指定字符串中出现的第一次和最后一次的位置  
+\
+`StringBuilder`可以提高追加字符串和替换单个字符的效率，删除或插入子字符串仍然效率低下，
+故在拼接字符串时应该使用`StringBuilder`，
+在执行`Console.WriteLine`方法格式化输出字符串时，实际上是调用了`String.Format`方法，
+而`String.Format`方法先构建一个`StringBuilder`，
+使用`StringBuilder.Append`方法添加格式化字符串中的固定部分，
+使用`StringBuilder.AppendFormat`方法添加格式化字符串中的占位符部分(如`{0,10:E}`)  
+\
+格式化字符串形如：`{[index],[length]:[specifier]}`
+
+ - `[index]`表示在后面参数数组中的位置
+ - `[length]`表示字符串长度，负值左对齐，正值右对齐，少补多不切
+ - `[specifier]`表示格式说明符，如`D`表示整数，`E`表示科学计数法等
+
+也可以为自己的类指定格式化字符串，实现`IFormattable`接口，
+在类中添加带有两个参数的`ToString`方法重载即可，
+其中第一个参数表示格式说明符
+
+```cs
+public string ToString(string format, IFormatProvider formatProvider)
+{
+    // 当格式说明符为空时调用无参的ToString方法
+    if (format == null)
+    {
+        return ToString();
+    }
+}
+```
+
+#### 正则表达式
+
+| 符号 | 含义 |
+| ---- |:---- |
+| `\s` | 任何空白字符 |
+| `\S` | 任何不适空白的字符 |
+| `\b` | 字边界 |
+| `\B` | 任何不适字边界的字符 |
+
+正则表达式匹配使用`Match`或`Matches`方法，结果为`Match`或`MatchCollection`对象，
+每一个`Match`对象是指匹配整个正则表达式的部分，而这部分还可以在细分组，
+在正则表达式中用`()`包裹的部分称为组，除了以`?:`开头的组（类似`(?: .... )`），
+每个匹配中的组都存在`Match.Groups`对象中，这是一个`GroupCollection`对象，
+每一个`Group`又可获取相应的捕获`Capture`  
+
+> **注：**若是在匹配时仅仅想获得匹配的结果，而不需要相应的`GroupCollection`结果，
+> 除了在组前加`?:`外，还可以在创建正则表达式时添加`RegExOption.ExplicitCaptures`方法
