@@ -16,11 +16,11 @@
 
 ---
 
-#### 空合并运算符(??)
+### 空合并运算符(??)
 
 条件运算符的一种特殊情况(?:)，`a ?? 10`就等于`a == null ? 10 : a`
 
-#### 比较对象相等性
+### 比较对象相等性
 
  1. `ReferenceEquals`静态方法，比较两个引用是否应用同一个实例（内存中的相同地址），**它认为null等于null**
  2. `Equals`虚拟方法，可以重写实现
@@ -32,24 +32,26 @@
 
  4. `==`值类型比较值，引用类型比较引用，但是由于运算符重载，可以使引用类型比较值，如微软重写了String的`==`来比较字符串的值而不是引用
 
-#### 运算符重载
+### 运算符重载
 
  1. 运算符的工作方式，编译器在遇到运算符时会根据运算符的操作数查找最佳的运算符重载方法调用，
     如果找不到，则可以通过隐式转换来查找匹配的方法，否则就会抛出异常
 
  2. 运算符重载形式如下：
 
-```cs
-public static [ReturnType] operator + ([Type1] lhs, [Type2] rhs)
-// 运算符重载必须被声明为public static
-```
+    ```cs
+    public static [ReturnType] operator + ([Type1] lhs, [Type2] rhs)
+    // 运算符重载必须被声明为public static
+    ```
+
     一般，若是[Type1]和[Type2]不是同一类型，则会再实现一个[Type1]为右操作数，[Type2]为左操作数的版本
-```cs
-public static [ReturnType] operator + ([Type2] lhs, [Type1] rhs)
-{
-    return rhs + lhs;
-}
-```
+
+    ```cs
+    public static [ReturnType] operator + ([Type2] lhs, [Type1] rhs)
+    {
+        return rhs + lhs;
+    }
+    ```
 
  3. 可以重载的运算符：
      
@@ -57,7 +59,7 @@ public static [ReturnType] operator + ([Type2] lhs, [Type1] rhs)
      - 比较运算符：需要成对重载，共3对，`==`和`!=`，`>`和`<`，`>=`和`<=`，**在重载`==`和`!=`时还需要重载`Equals`和`GetHashCode`方法，否则会产生编译错误**
      - 按位运算符： `&`，`<<`，`>>`等
 
-#### 自定义强制类型转换
+### 自定义强制类型转换
 
 ---
 
@@ -89,7 +91,7 @@ public class DerivedClass : BaseClass
 
 ---
 
-#### 委托
+### 委托
 
 定义委托就是指定所要委托方法的方法签名，形式如下
 
@@ -147,7 +149,7 @@ GetString two = x.ToString;
 >     }
 > ```
 
-#### 匿名方法
+### 匿名方法
 
 匿名方法是编译器提供的一种快捷方式用来初始化委托，如下
 
@@ -172,7 +174,7 @@ static void Main()
  - 匿名方法中可以访问方法外部的变量，但不能使用`out`和`ref`参数
  - 匿名方法中不能使用`break`，`goto`，`continue`等跳转语句跳转到方法内部
 
-#### Lambda表达式(.NET > 3.0)
+### Lambda表达式(.NET > 3.0)
 
 Lambda表达式包含多条语句时应用`{}`和`return`
 
@@ -196,7 +198,7 @@ Lambda表达式也可以像匿名函数一样访问表达式外部的变量，�
 > 在C# 4中应该另外定义一个循环体内的局部变量来进行闭包，
 > 否则，所有Lambda表达式中的外部变量会变成集合中的最后一项而不是闭包时的每一项
 
-#### 事件
+### 事件
 
 事件定义需要有一个继承自`EventArgs`类的事件参数类，调用事件时传递相关数据
 
@@ -291,7 +293,7 @@ WeakEventManager<TEventSource, TEventArgs>.AddHandler(TEventSource source,
 
 ---
 
-#### 字符串
+### 字符串
 
 `String.IndexOfAny`和`String.LastIndexOfAny`方法可以用于一组字符串在某个指定字符串中出现的第一次和最后一次的位置  
 \
@@ -323,7 +325,7 @@ public string ToString(string format, IFormatProvider formatProvider)
 }
 ```
 
-#### 正则表达式
+### 正则表达式
 
 | 符号 | 含义 |
 | ---- |:---- |
