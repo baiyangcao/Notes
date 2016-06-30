@@ -157,8 +157,15 @@ PdfFileEditor pdfeditor = new PdfFileEditor();
 pdfeditor.Concatenate("input1.pdf", "input2.pdf", "blank.pdf", "output.pdf");
 ```
 
+另外，因为小生的业务需求，需要在pdf合成完毕之后删除源文件，
+所以就在执行完`Concatenate`方法后直接调用`File.Delete`方法删除文件，
+但是却报错了，在看了API文档之后才了解到，需要设置
+`PdfFileEditor.CloseConcatenateStreams = true;`，
+在合成完毕之后，关闭`Stream`。
+
 > 参考链接  
 > [Concatenate PDF Files](http://www.aspose.com/docs/display/pdfnet/Concatenate+PDF+Files)  
 > [Append PDF files](http://www.aspose.com/docs/display/pdfnet/Append+PDF+files)  
 > [Concatenate PDF Files with Blank PDF Using File Paths (Facades)](http://www.aspose.com/docs/display/pdfnet/Concatenate+PDF+Files+with+Blank+PDF+Using+File+Paths+%28Facades%29)  
-> [PdfFileEditor Class](http://www.aspose.com/api/net/pdf/aspose.pdf.facades/pdffileeditor)  
+> [PdfFileEditor Class](http://www.aspose.com/api/net/pdf/aspose.pdf.facades/pdffileeditor)
+
