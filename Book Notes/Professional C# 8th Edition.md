@@ -342,3 +342,141 @@ public string ToString(string format, IFormatProvider formatProvider)
 
 > **注：**若是在匹配时仅仅想获得匹配的结果，而不需要相应的`GroupCollection`结果，
 > 除了在组前加`?:`外，还可以在创建正则表达式时添加`RegExOption.ExplicitCaptures`方法
+
+## 集合
+
+---
+
+#### 列表
+
+```cs
+List : IList, ICollection, IEnumerable, IList<T>, ICollection<T>, IEnumerable<T>
+```
+
+ - `List<T>.ForEach(Action<T> action)`
+
+ - 删除元素使用`RemoveAt`，用索引删除比较快，而`Remove`方法先调用`IndexOf`搜索元素索引再删除
+
+ - `FindIndex,FindLastIndex,Find,FindAll`参数类型为`Predicate<T>`，这是一个委托类型
+```cs
+public delegate bool Predicate<T>(T obj);
+```   
+   用于判断列表中的某个元素是否符合要求
+
+ - 排序方法`Sort`使用快速排序算法对列表进行排序 
+```cs
+// 只有实现了IComparable接口的类可以调用无参Sort
+public void Sort();
+// 委托方法：public delegate int Comparison<T>(T x, T y)
+public void Sort(Comparison<T>);
+// 实现IComparer<T>接口，实现Compare(T, T)方法
+public void Sort(IComparer<T>);
+public void Sort(Int32, Int32, IComparer<T>);
+```
+
+ - `List<T>.ConvertAll<TOutput>`方法实现类型转化，参数为`Convert`委托
+```cs
+public sealed delegate TOutput Convert<TInput, TOutput>(TInput);
+```
+
+#### 队列
+
+```cs
+Queue<T> : ICollection, IEnumerable<T>
+```
+
+ - Enqueue: 入队
+ - Dequeue: 出队，元素从队列中删除
+ - Peek: 读取队列头部元素，但不删除
+
+#### 栈
+
+```cs
+Stack<T> : ICollection, IEnumerable<T>
+```
+
+ - Push: 入栈 
+ - Pop: 出栈，元素从栈中删除
+ - Peek: 读取栈顶元素但不删除
+
+#### 链表
+
+```cs
+LinkList<T>
+```
+
+ - First/Last: 链表头/尾
+ - AddAfter/AddBefore/AddFirst/AddLast: 指定位置插入
+ - Remove/RemoveFirst/RemoveLast: 指定位置删除
+ - Find/FindLast: 从链表头/尾开始查找
+
+```cs
+LinkListNode<T>
+```
+
+ - List: LinkList<T>
+ - Next/Previous: 前/后一个节点
+ - Value: 当前节点
+
+#### 字典
+
+```cs
+Dictionary<TKey, TValue>
+```
+
+作为字典中的键类型必须重写`GetHashCode`方法，满足如下要求：
+
+ - 相同对象总是返回相同值
+ - 不同对象可以返回相同值
+ - 执行快，开销小
+ - 不能抛出异常
+ - 至少使用一个实例字段
+ - 哈希值应平均分布在`int`整个数字范围内
+ - 哈希值最好在对象生成周期内不变
+
+> 字典的性能取决于`GetHashCode`方法的实现代码  
+> 可以使用`string`或`int`类型的`GetHashCode`方法来获取哈希值
+
+#### Lookup
+
+```cs
+Lookup<TKey, TElement>
+```
+
+将键值映射到集合上，只能通过`IEnumerable<T>.ToLookup(Func<TSource, TKey>)`方法来返回，
+其中委托`Func<TSource, TKey>`用于筛选键值，键值相同的会放到同一个集合中，类似分组方法
+
+#### 集
+
+```cs
+HashSet<T>, SortedSet<T> : ISet<T>, ICollection<T>
+```
+
+ - ISubSetOf/ISuperSetOf: 超集和子集验证
+ - UnionWith: 合并集合
+
+#### 可观察集合
+
+```cs
+ObservableCollection<T> : Collection<T>
+```
+
+该类中重写`SetItem`和`RemoveItem`方法，来触发`CollectionChanged`事件
+
+#### 位数组
+
+ - `BitArray` 可以重新设置大小，灵活
+ - `BitVector32` 基于栈，速度快，但只有32位，存在一个整数中
+
+### 并发集合
+
+`System.Collection.Concurrent`命名空间中`IProducerConsumerCollection<T>`接口
+用于实现集合线程安全访问，定义了`TryAdd`和`TryTake`方法
+
+ - `ConcurrentDictionary<TKey, TValue>`: 提供`TryAdd/TryGetValue/TryRemove/TryUpdate`
+   方法以非阻塞方式访问成员
+ - `BlockCollection<T>`
+
+     + `Add/Take(T)`: 在操作完成之前会一直阻塞线程直到完成
+     + `Add/Take(T, CancellationToken)`: 可以使用令牌来取消操作
+     + `TryAdd/TryTake`: 可以在方法中指定超时时间，表示调用失败之前应阻塞线程的最长时间
