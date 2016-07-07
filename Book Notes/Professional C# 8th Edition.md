@@ -480,3 +480,102 @@ ObservableCollection<T> : Collection<T>
      + `Add/Take(T)`: 在操作完成之前会一直阻塞线程直到完成
      + `Add/Take(T, CancellationToken)`: 可以使用令牌来取消操作
      + `TryAdd/TryTake`: 可以在方法中指定超时时间，表示调用失败之前应阻塞线程的最长时间
+
+
+## LINQ
+
+---
+
+编译器会转换LINQ查询语句来调用方法，`System.Linq.Enumerable`类为`IEnumerable<T>`接口提供了各种扩展方法，
+如`where`方法的实现代码如下：
+
+```cs
+public IEnumerable<T> Where<T>(
+    this IEnumerable<T> source,
+    Func<T, bool> predicate)
+{
+    foreach(T item in source)
+    {
+        if (predicate(item))
+            // 返回IEnumerable类型时可以使用yield return 语句
+            yield return item;
+    }
+}
+```
+
+LINQ查询是在对查询结果进行迭代或使用`ToArray`、`ToList`方法时才会执行，而不是在定义的时候执行
+
+#### 查询操作符
+
+ - `Where((item, index) => {})` 带有两个参数的扩展方法，第二个参数表示索引
+
+ - `OfType<TResult>` 根据类型筛选，只返回`TResult`类型的元素
+
+ - `SelectMany` 从“集合的集合”[指集合中的每一项都包含一个集合]中进行选择，定义如下
+
+```cs
+public static IEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(
+    this IEnumerable<TSource> source,
+    // 选出“集合的集合”
+    Func<TSource, IEnumerable<TCollection>> collectionselector,
+    // 针对每一个“集合中的集合”来选择结果
+    Func<TSource, TCollection, TResult> resultselector
+);
+```
+
+ - `ThenBy/ThenByDescending` 在`OrderBy/OrderByDescending/ThenBy/ThenByDescending`
+   之后调用，用于多个字段排序
+
+ - `GroupBy` = group [item] by [item.field] into g，返回`IGourping`对象，
+   使用`IGourping.Key`值来表示分组字段[item.field]值
+
+ - 内连接 `from item1 in collection1 join item2 in collection2 on item1.field1 equals item2.field2`
+
+ - 左外链接
+
+```cs
+from item1 in collection1
+join item2 in collection2 on item1.field1 equals item2.field2 into collection3
+from item3 in collection3.DefaultIfEmpty()
+```
+
+ - 组合链接
+
+```cs
+from item1 in collection1
+join item2 in collection2
+on new { Field1 = item1.field1, Field2 = item1.field2 }
+equals new { Field1 = item2.field1, Field2 = item2.field2 }
+```
+
+ - `Distinct`去重 `Union`并集 `Intersect`交集 `Except`茶几（差集）
+
+ - `Zip` 两个集合中一一对应合并，如果两个集合长度不同，以最小的为准
+
+ - (`Take` => Top `Skip` 跳过) => 分页
+
+ - 聚合函数返回一个值，`Count/Max/Min/Sum/Average/Aggregate`
+
+ - `IEnumerable.Range/Empty/Repeat`
+
+### 并行LINQ 
+
+ - `IEnumerable.AsParallel` 并行执行，多个CPU，效率高
+
+ - 手动创建分区器
+
+```cs
+System.Collection.Concurrent.Partitioner.Create(IList) // 手动创建分区器
+.WithExecutionMode(ParallelExecutionMode.Default)
+.WithDegreeOfParallelism(4) // 并行运行的最大任务数
+.AsParallel()
+```
+
+ - 取消查询 `IList.AsParallel().WithCancellation(CancellationTokenSource.Token)`
+   在想要取消查询时调用`CancellationTokenSource.Cancel`方法即可，不过查询会抛出一个
+   `OperationCanceledException`异常
+
+#### 表达式树
+
+完全看不懂的说，大概就是说可以解析Lambda表达式吧。。。
+
