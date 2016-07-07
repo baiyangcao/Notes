@@ -579,3 +579,65 @@ System.Collection.Concurrent.Partitioner.Create(IList) // 手动创建分区器
 
 完全看不懂的说，大概就是说可以解析Lambda表达式吧。。。
 
+
+## 动态扩展语言
+
+---
+
+### dynamic类型
+
+dynamic类型可以让编译器忽略类型检查，假定dynamic对象上的任何操作都是有效的，
+在编译器内部在运行期间使用`System.Runtime.ComplierServices.CallSite`类来查找操作类型，
+并缓存其信息，然后调用`System.Runtime.ComplierServices.CallSiteBinder`类来绑定操作，
+从`CallSite`中提取信息，生成表达式树
+
+### DLR ScriptRuntime
+
+可以在代码中运行别的脚本语言的脚本，如`Python`,`Ruby`,`JavaScript`
+
+```cs
+// 1. 创建脚本运行时
+ScriptRuntime scriptruntime = ScriptRuntime.CreateFromConfiguration();
+
+// 2. 获取脚本引擎
+ScriptEngine pyEngine = scriptruntime.GetEngine("Python");
+
+// 3. 创建执行作用域/命名空间
+ScriptScope scope = pyEngine.CreateScope();
+
+// 4. 创建脚本对象
+ScriptSource source = pyEngine.CreateScriptSourceFromFile(path);
+
+// 以上四步为规定动作，下面开始自选动作
+// 设置变量
+source.SetVariable("count", 1);
+// 执行脚本
+source.Execute(scope);
+// 获取变量
+int output = source.GetVariable("output");
+```
+
+#### DynamicObject
+
+用于编写自己的动态类的基类，需要重写下面三个方法
+
+```cs
+// 获取字段值
+public bool TryGetMember(GetMemberBinder binder, out object result);
+// 设置字段值
+public bool TrySetMember(SetMemberBinder binder, object value);
+// 调用方法
+public bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result);
+```
+
+#### ExpandoObject
+
+另一个创建自定义动态对象的方法就是使用`ExpandoObject`类
+
+```cs
+dynamic expobject = new ExpandoObject();
+expobject.Field1 = 2;
+Func<int, int, int> add = (a, b) => a + b;
+expobject.Add = add;
+expobject.Add(1, 2); // 3
+```
