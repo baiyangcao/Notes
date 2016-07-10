@@ -641,3 +641,49 @@ Func<int, int, int> add = (a, b) => a + b;
 expobject.Add = add;
 expobject.Add(1, 2); // 3
 ```
+
+## 异步编程
+
+---
+
+.NET中的三种异步模式：
+
+ - .NET 1.0 中提供了异步特性，使用`BeginXXX`方法和`EndXXX`方法
+
+ - .NET 2.0 中推出了基于事件的异步模式，可以用于图形界面的更新，
+   定义了一个带有`Async`后缀的方法，定义事件的回调方法，在调用结束后执行
+
+ - .NET 4.5 中推出了基于任务的异步模式(TAP)，利用了.NET 4.0中新增的`Task`类型
+   和编译器提供的`async`和`await`关键字，`await`关键字用于调用返回值为`Task`的方法，
+   此方法不会阻塞完成其他任务的线程，但使用`await`关键字的方法需要使用`async`修饰符声明，
+
+### 基于任务的异步编程
+
+`Task<T>.Continue`方法定义了任务完成之后要执行的任务代码，
+`await`关键字其实只是编译器提供的语法糖，而其经过编译之后，
+会把`await`之后的代码作为回调的代码放进`Task<T>.Continue`之后的代码块中
+\
+`await Task<T>.WhenAll`和`await Task<T>.WhenAny`方法可以用于同时执行多个方法
+
+ - `WhenAll`方法当所有任务都完成的时候返回任务，并且当所有方法都返回相同的结果时，
+   可以用一个数组来接受所有任务返回值
+ - `WhenAny`方法有一个任务完成便返回任务
+
+#### 任务的异常处理
+
+ 1. 单个任务中的异常处理，可以使用`await`关键字调用方法然后置于`try`块中
+
+ 2. 多个任务的异常处理，使用`await Task<T>.WhenAll`执行所有任务，
+    而错误的获取可以通过以下两种方式：
+ 
+     - 在`catch`块中根据`Task.IsFaulted`属性可以判断报错的任务
+     - 将调用结果赋予一个`Task`变量，然后使用`Task.Exception.InnerExceptions`属性来获取所有的错误信息
+
+#### 任务的取消
+
+任务的取消主要使用`CancellationTokenSource.Cancel`方法来实现，
+对于.NET框架提供的异步执行方法可以在执行时传入`CancellationTokenSource.Token`变量，
+然后使用`CancellationTokenSource.Cancel`方法来取消任务，
+执行该方法时会抛出`OperationCanceledException`异常；
+对于调用`Task.Run`实现的自定义任务可以在调用时传入`Token`变量，
+并在方法内使用`Token.ThrowIfCancellationRequest`方法在任务取消时抛出错误
