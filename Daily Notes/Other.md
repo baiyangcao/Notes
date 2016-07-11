@@ -108,3 +108,64 @@ sdeconfig -o import -f serverconfig.txt -u sde -p sde
 
      - 输入列表名称，形如：=MyList，其中列表名称可以在`公式--名称管理器`中查看，
        可以通过在表格中选择数据来源范围，然后单击`公式--根据所选内容创建`来创建列表
+
+
+## 操作系统已经向 SQL Server 返回了错误 21(设备未就绪。)
+
+---
+
+昨天服务器以外断点，今天再打开应用的时候就报错
+
+```
+“/SYUPB”应用程序中的服务器错误。
+--------------------------------------------------------------------------------
+
+在文件 'G:\AffixFile.mdf' 中、偏移量为 0x00000000134000 的位置执行 读取 期间，操作系统已经向 SQL Server 返回了错误 21(设备未就绪。)。SQL Server 错误日志和系统事件日志中的其他消息可能提供了更详细信息。这是一个威胁数据库完整性的严重系统级错误条件，必须立即纠正。请执行完整的数据库一致性检查(DBCC CHECKDB)。此错误可以由许多因素导致；有关详细信息，请参阅 SQL Server 联机丛书。 
+说明: 执行当前 Web 请求期间，出现未处理的异常。请检查堆栈跟踪信息，以了解有关该错误以及代码中导致错误的出处的详细信息。 
+
+异常详细信息: System.Data.SqlClient.SqlException: 在文件 'G:\AffixFile.mdf' 中、偏移量为 0x00000000134000 的位置执行 读取 期间，操作系统已经向 SQL Server 返回了错误 21(设备未就绪。)。SQL Server 错误日志和系统事件日志中的其他消息可能提供了更详细信息。这是一个威胁数据库完整性的严重系统级错误条件，必须立即纠正。请执行完整的数据库一致性检查(DBCC CHECKDB)。此错误可以由许多因素导致；有关详细信息，请参阅 SQL Server 联机丛书。
+
+源错误: 
+
+
+行 132:            ", Type_, InstanceID_, CaseCode_);
+行 133:            DBLayer.DataOption DO = new DBLayer.DataOption();
+行 134:            return DO.ExecuteNonQuery(sql, CommandType.Text, null) > 0;
+行 135:        }
+行 136:
+ 
+
+源文件: d:\syupb\BPObject\GeoTDCBYWTable.aspx.cs    行: 134 
+
+堆栈跟踪: 
+
+
+[SqlException (0x80131904): 在文件 'G:\AffixFile.mdf' 中、偏移量为 0x00000000134000 的位置执行 读取 期间，操作系统已经向 SQL Server 返回了错误 21(设备未就绪。)。SQL Server 错误日志和系统事件日志中的其他消息可能提供了更详细信息。这是一个威胁数据库完整性的严重系统级错误条件，必须立即纠正。请执行完整的数据库一致性检查(DBCC CHECKDB)。此错误可以由许多因素导致；有关详细信息，请参阅 SQL Server 联机丛书。]
+   DBLayer.DataOption.ExecuteNonQuery(String sql, CommandType type, SqlParameter[] parms) +378
+   SYUPBProject.GeoTDCBYWTable.InitDocs(String InstanceID_, String Type_, String CaseCode_) in d:\syupb\BPObject\GeoTDCBYWTable.aspx.cs:134
+   SYUPBProject.GeoTDCBYWTable.Page_Load(Object sender, EventArgs e) in d:\syupb\BPObject\GeoTDCBYWTable.aspx.cs:101
+   System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e) +14
+   System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e) +35
+   System.Web.UI.Control.OnLoad(EventArgs e) +99
+   System.Web.UI.Control.LoadRecursive() +50
+   System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint) +627
+
+ 
+
+
+--------------------------------------------------------------------------------
+版本信息: Microsoft .NET Framework 版本:2.0.50727.5420; ASP.NET 版本:2.0.50727.5459 
+
+```
+
+估计是断点导致的日志和文件信息出现了不一致问题，解决方法如下：
+
+```sql
+use master 
+declare @databasename varchar(255) 
+set @databasename='AffixFile' 
+exec sp_dboption @databasename, N'single', N'true'--将目标数据库置为单用户状态
+dbcc checkdb(@databasename,REPAIR_ALLOW_DATA_LOSS) 
+dbcc checkdb(@databasename,REPAIR_REBUILD) 
+exec sp_dboption @databasename, N'single', N'false'--将目标数据库置为多用户状态
+```
