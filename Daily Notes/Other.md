@@ -169,3 +169,23 @@ dbcc checkdb(@databasename,REPAIR_ALLOW_DATA_LOSS)
 dbcc checkdb(@databasename,REPAIR_REBUILD) 
 exec sp_dboption @databasename, N'single', N'false'--将目标数据库置为多用户状态
 ```
+
+## SQL Server 部署CLR程序集错误`6218`
+
+---
+
+Visual Studio 2015中开发的SQL Server项目，添加了用户自定义函数，需要部署到SQL Server 2005上，
+在部署时报错：
+
+```
+(70,1): SQL72014: .Net SqlClient Data Provider: 消息 6218，级别 16，状态 3，第 1 行 针对 'SqlRegExp' 的 ALTER ASSEMBLY 失败，原因是程序集 'SqlRegExp' 未通过身份验证。请检查被引用程序集是否是最新的，而且是可信的(external_access 或 unsafe)，能在该数据库中执行。如果有 CLR Verifier 错误消息，将显示在此消息之后 
+(70,0): SQL72045: 脚本执行错误。执行的脚本:
+ALTER ASSEMBLY [SqlRegExp]
+    FROM ...
+执行批处理时出错。
+```
+
+ - 修改`项目属性` -> `项目设置`中`目标平台`为`SQL Server 2005`
+ - 修改`项目属性` -> `SQLCLR`中的`目标框架`为`.Net Framework 2.0`
+
+再次发布即可
