@@ -230,3 +230,42 @@ pdf.Save(@"C:\outputtest.pdf");
 > 参考链接：
 > [Convert an Image to PDF](http://www.aspose.com/docs/display/pdfnet/Convert+an+Image+to+PDF)
 > [Working with Images (Generator)](http://www.aspose.com/docs/display/pdfnet/Working+with+Images+%28Generator%29)
+
+## IE8下载报错`Internet Explorer无法下载...Internet Explorer无法打开该Internet站点`
+
+---
+
+IE8打开下载链接报错，在IE11下可以正常下载，报错如下：
+
+```
+Internet Explorer无法下载XXX(来自XXX.XXX.XXX.XXX)
+
+Internet Explorer无法打开该Internet站点。请求的站点不可用，或找不到。请以后再试。
+```
+
+### 原因
+
+如果任何一个或多个下列条件都为真，则可能发生此问题︰
+
+ - Internet Explorer 6.0 SP1 中选中不将加密的页存盘复选框。
+ - 服务器发送的"缓存控制:: 不存储"标头(Cache-Control: no-store)。
+ - 服务器发送的"缓存控制:: 无缓存"标头。
+
+### 解决办法
+
+1. 客户端：注册表增加下列DWORD条目BypassSSLNoCacheCheck，值设置为1，  
+   **HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\BypassSSLNoCacheCheck**
+
+2. 若无法修改服务端，可以通过修改服务端返回的HTTP请求头来修复，
+   HTTP response Header中的`Cache-Control`和`Pragma`不能设置为`no-cache`
+   小生用的APS.NET API，做的如下修改：
+
+```
+response.Header.Add("Cache-Control", "public");
+```
+
+> 参考链接：  
+> [关于IE下用HTTPS无法下载/打开文件](http://www.51testing.com/html/65/160865-209104.html)  
+> [KB812935 使用 HTTPS URL 打开的 Office 文档或 PDF 文件时出现"无法下载 Internet Explorer"错误信息](https://support.microsoft.com/zh-cn/kb/812935)  
+> [KB815313 禁止缓存通过 SSL 下载活动文档时](https://support.microsoft.com/zh-cn/kb/815313)  
+> [KB316431 PRB：Internet Explorer 无法从 SSL Web 站点打开 Office 文档](https://support.microsoft.com/zh-cn/kb/316431)  
