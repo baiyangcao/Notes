@@ -16,9 +16,13 @@
 工作生活中阅读的技术相关书籍的笔记，备忘录等
 
  - [C# 高级编程（第8版）](https://github.com/baiyangcao/Notes/blob/master/Book%20Notes/Professional%20C%23%208th%20Edition.md)
+ - 利用Python进行数据分析
 
 ### 学习笔记
 
 通过网络等相关途径自学技术的笔记
 
  - [Pandoc中的MarkDown语法](https://github.com/baiyangcao/Notes/blob/master/Study%20Notes/Pandoc%20Markdown.md)
+ - pymssql连接数据库基础
+ - Anconada使用入门
+ - 利用Github Pages建立仓库“门面”
