@@ -23,6 +23,6 @@
 通过网络等相关途径自学技术的笔记
 
  - [Pandoc中的MarkDown语法](https://github.com/baiyangcao/Notes/blob/master/Study%20Notes/Pandoc%20Markdown.md)
- - pymssql连接数据库基础
+ - [pymssql连接数据库基础](https://github.com/baiyangcao/Notes/blob/master/Study%20Notes/pymssql_basic.md)
  - Anconada使用入门
  - 利用Github Pages建立仓库“门面”
