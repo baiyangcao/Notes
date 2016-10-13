@@ -19,7 +19,11 @@ conda --version
 # 更新conda版本
 conda update conda
 ```
-其中更新命令不仅仅会更新conda的版本，同时会自动更新相关的包
+其中更新命令不仅仅会更新conda的版本，同时会自动更新相关的包，
+其实，我们也可以使用这个命令来更新Anaconda版本
+```
+conda update anaconda
+```
 
 ## 环境管理
 
@@ -71,10 +75,19 @@ deactivate
 
 其实，还可以复制一个和指定环境完全相同的环境，
 只要在创建时添加`--clone`参数指定相应的环境名称即可
-
 ```
 # 复制环境
 conda create --name flowers --clone snowflakes
+```
+另外，环境也可以在不同机器之间进行复制，
+只要将要复制的环境导出为`*.yml`配置文件，
+再到指定机器上创建时指定配置文件即可
+```
+# 导出配置文件
+conda env export --name snowflakes > snowflakes.yml
+
+# 根据配置文件导入环境
+conda env create -f snowflakes.yml
 ```
 
 ## 软件包管理
@@ -94,7 +107,7 @@ conda list
 conda search beautifulsoup4
 
 # 安装软件包
-conda install --name beautifulsoup4=4.5.1
+conda install --name beautifulsoup4=4.4.1
 ```
 
 另外，也可以<http://anaconda.org>网站上搜索想要的软件包，
@@ -104,6 +117,11 @@ conda install --name beautifulsoup4=4.5.1
 
 ```
 pip install XXX
+```
+
+而更新软件包可以使用`update`命令
+```
+conda update --name snowflakes beautifulsoup4=4.5.1
 ```
 
 ## `python`管理
@@ -133,5 +151,9 @@ conda remove --name snowflakes biopython
 conda remove --name snakes --all
 ```
 
+> TIPS:  
+> 所有命令都可以使用`--help`参数来查找详细的参数说明及用法
 
-> 参考链接：<http://conda.pydata.org/docs/test-drive.html>
+> 参考链接：  
+> <http://conda.pydata.org/docs/test-drive.html>
+> <https://docs.continuum.io/_downloads/Anaconda_CheatSheet.pdf>
