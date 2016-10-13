@@ -153,7 +153,7 @@ conda remove --name snakes --all
 
 > TIPS:  
 > 所有命令都可以使用`--help`参数来查找详细的参数说明及用法
-
+  
 > 参考链接：  
-> <http://conda.pydata.org/docs/test-drive.html>
+> <http://conda.pydata.org/docs/test-drive.html>  
 > <https://docs.continuum.io/_downloads/Anaconda_CheatSheet.pdf>
