@@ -6,23 +6,23 @@
 
 日常工作中遇到问题及相关知识学习的锦集，包括如下几个方面：
 
- - [DotNet](https://github.com/baiyangcao/Notes/blob/master/Daily%20Notes/DotNet.md)
- - [JavaScript](https://github.com/baiyangcao/Notes/blob/master/Daily%20Notes/Javascript.md)
- - [Oracle](https://github.com/baiyangcao/Notes/blob/master/Daily%20Notes/Oracle.md)
- - [其他](https://github.com/baiyangcao/Notes/blob/master/Daily%20Notes/Other.md)
+ - [DotNet](Daily%20Notes/DotNet.md)
+ - [JavaScript](Daily%20Notes/Javascript.md)
+ - [Oracle](Daily%20Notes/Oracle.md)
+ - [其他](Daily%20Notes/Other.md)
 
 ### 读书笔记
 
 工作生活中阅读的技术相关书籍的笔记，备忘录等
 
- - [C# 高级编程（第8版）](https://github.com/baiyangcao/Notes/blob/master/Book%20Notes/Professional%20C%23%208th%20Edition.md)
+ - [C# 高级编程（第8版）](Book%20Notes/Professional%20C%23%208th%20Edition.md)
  - 利用Python进行数据分析
 
 ### 学习笔记
 
 通过网络等相关途径自学技术的笔记
 
- - [Pandoc中的MarkDown语法](https://github.com/baiyangcao/Notes/blob/master/Study%20Notes/Pandoc%20Markdown.md)
- - [pymssql连接数据库基础](https://github.com/baiyangcao/Notes/blob/master/Study%20Notes/pymssql_basic.md)
- - Anconada使用入门
+ - [Pandoc中的MarkDown语法](Study%20Notes/Pandoc%20Markdown.md)
+ - [pymssql连接数据库基础](Study%20Notes/pymssql_basic.md)
+ - [Anaconada使用入门](Study%20Notes/anaconda_basic.md)
  - 利用Github Pages建立仓库“门面”
