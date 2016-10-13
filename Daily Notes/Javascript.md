@@ -1,16 +1,6 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-<style>
-    body {
-        margin: 0 200px;
-    }
-    * {
-        font-size: 16px;
-    }
-</style>
 
 ## `EasyUI`中`getChanges`方法获取不到`updateRow`的结果
-
----
 
 在使用了`updateRow`更新行数据之后，使用`getChanges`方法获取表格改变，
 但是却获取不到正确的结果，后在网上找到如下重写`updateRow`方法

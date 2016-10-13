@@ -1,20 +1,8 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-<style>
-    body {
-        margin: 0 200px;
-    }
-    * {
-        font-size: 16px;
-    }
-</style>
 
 # C# 语言
 
----
-
 ## 运算符和类型强制转换
-
----
 
 ### 空合并运算符(??)
 
@@ -61,8 +49,6 @@
 
 ### 自定义强制类型转换
 
----
-
 强制类型转换在某些情况下可以看做是运算符，其声明方式也与运算符类似
 
 ```
@@ -88,8 +74,6 @@ public class DerivedClass : BaseClass
 被称为多重影分身（当然是开玩笑的，叫多重强制转换）
 
 ## 委托、Lambda表达式和事件
-
----
 
 ### 委托
 
@@ -291,8 +275,6 @@ WeakEventManager<TEventSource, TEventArgs>.AddHandler(TEventSource source,
 
 ## 字符串和正则表达式
 
----
-
 ### 字符串
 
 `String.IndexOfAny`和`String.LastIndexOfAny`方法可以用于一组字符串在某个指定字符串中出现的第一次和最后一次的位置  
@@ -344,8 +326,6 @@ public string ToString(string format, IFormatProvider formatProvider)
 > 除了在组前加`?:`外，还可以在创建正则表达式时添加`RegExOption.ExplicitCaptures`方法
 
 ## 集合
-
----
 
 #### 列表
 
@@ -484,8 +464,6 @@ ObservableCollection<T> : Collection<T>
 
 ## LINQ
 
----
-
 编译器会转换LINQ查询语句来调用方法，`System.Linq.Enumerable`类为`IEnumerable<T>`接口提供了各种扩展方法，
 如`where`方法的实现代码如下：
 
@@ -582,8 +560,6 @@ System.Collection.Concurrent.Partitioner.Create(IList) // 手动创建分区器
 
 ## 动态扩展语言
 
----
-
 ### dynamic类型
 
 dynamic类型可以让编译器忽略类型检查，假定dynamic对象上的任何操作都是有效的，
@@ -644,8 +620,6 @@ expobject.Add(1, 2); // 3
 
 ## 异步编程
 
----
-
 .NET中的三种异步模式：
 
  - .NET 1.0 中提供了异步特性，使用`BeginXXX`方法和`EndXXX`方法
@@ -689,8 +663,6 @@ expobject.Add(1, 2); // 3
 并在方法内使用`Token.ThrowIfCancellationRequest`方法在任务取消时抛出错误
 
 ## 内存管理与指针
-
----
 
 ### 内存管理
 

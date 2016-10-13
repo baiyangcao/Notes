@@ -1,16 +1,6 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-<style>
-    body {
-        margin: 0 200px;
-    }
-    * {
-        font-size: 16px;
-    }
-</style>
 
 ## `String.Format` “输入字符串格式不正确”
-
----
 
 ```cs
 string script =
@@ -39,10 +29,9 @@ string script =
 
 > 参考链接：<http://blog.csdn.net/zhl71199713/article/details/19846571>
 
+---
 
 ## `IIS“假死”`
-
----
 
 IIS应用程序总是会有一段时间没有人访问，然后再打开的时候就会很慢的现象，即出现了“假死”现象  
 这是因为应用程序池在一段时间的空闲之后就会被IIS自动回收，
@@ -54,9 +43,9 @@ IIS应用程序总是会有一段时间没有人访问，然后再打开的时�
 
 > 参考链接：<http://www.cnblogs.com/50614090/archive/2012/10/23/2735933.html>
 
-## `Aspose.Pdf`合并PDF文件
-
 ---
+
+## `Aspose.Pdf`合并PDF文件
 
 使用`Aspose.Pdf`类库，有很多种方法可以合并PDF文件，这里简单介绍小生见到的几种：
 
@@ -169,9 +158,9 @@ pdfeditor.Concatenate("input1.pdf", "input2.pdf", "blank.pdf", "output.pdf");
 > [Concatenate PDF Files with Blank PDF Using File Paths (Facades)](http://www.aspose.com/docs/display/pdfnet/Concatenate+PDF+Files+with+Blank+PDF+Using+File+Paths+%28Facades%29)  
 > [PdfFileEditor Class](http://www.aspose.com/api/net/pdf/aspose.pdf.facades/pdffileeditor)
 
-## `Aspose.Pdf`合并图片到PDF文件
-
 ---
+
+## `Aspose.Pdf`合并图片到PDF文件
 
 将图片和PDF文件合成为新的PDF文件，可以先将图片转换为PDF文件，
 然后[合成PDF](#aspose.pdf合并pdf文件)即可，
@@ -231,9 +220,9 @@ pdf.Save(@"C:\outputtest.pdf");
 > [Convert an Image to PDF](http://www.aspose.com/docs/display/pdfnet/Convert+an+Image+to+PDF)
 > [Working with Images (Generator)](http://www.aspose.com/docs/display/pdfnet/Working+with+Images+%28Generator%29)
 
-## IE8下载报错`Internet Explorer无法下载...Internet Explorer无法打开该Internet站点`
-
 ---
+
+## IE8下载报错`Internet Explorer无法下载...Internet Explorer无法打开该Internet站点`
 
 IE8打开下载链接报错，在IE11下可以正常下载，报错如下：
 

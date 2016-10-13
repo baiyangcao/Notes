@@ -1,16 +1,8 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-<style>
-    body {
-        margin: 0 200px;
-    }
-    * {
-        font-size: 16px;
-    }
-</style>
-
-## `ORA-00064...` 修改Processes参数后重启报错
 
 ---
+
+## `ORA-00064...` 修改Processes参数后重启报错
 
 今天大黄蜂同学修改Oracle数据库的Processes参数后重启报这个错误
 
@@ -40,10 +32,9 @@ ORA-00064: object is too large to allocate on this O/S
 
  - 最会，重启数据库就是默认的使用spfile启动了`shutdownimmediate`，`startup`
 
+---
 
 ## `ORA-25153: Temporary Tablespace is Empty`
-
----
 
 故障定位
 
@@ -59,9 +50,9 @@ SQL> alter tablespace temp add tempfile '/u01/oracle/oradata/elvis/temp01.dbf';
 Tablespace altered.
 ```
 
-## 修改数据库`连接数`,`游标数`
-
 ---
+
+## 修改数据库`连接数`,`游标数`
 
 Oracle中的`processes`参数表示`最大连接数`，`open_cursors`参数表示`游标数`，
 如下可以查看系统中的最大连接数和游标数
@@ -104,9 +95,9 @@ SQL> alter system set open_cursors=2000 scope=spfile;
 > SQL> select * from v$open_cursors;
 > ```
 
-## `缓冲区性能调优`
-
 ---
+
+## `缓冲区性能调优`
 
 oracle 10g 修改SGA,PGA大小
 
@@ -140,9 +131,9 @@ show parameter sga_target;
 show parameter pga_aggregate_target;
 ```
 
-## `ORA-12514:TNS:监听程序当前无法识别连接描述符中请求的服务_监听程序不支持服务`
-
 ---
+
+## `ORA-12514:TNS:监听程序当前无法识别连接描述符中请求的服务_监听程序不支持服务`
 
 今天大黄蜂同学重启虚拟机之后再链接数据库就报了这个错，先查看了一下监听的状态
 

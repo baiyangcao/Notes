@@ -1,16 +1,8 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-<style>
-    body {
-        margin: 0 200px;
-    }
-    * {
-        font-size: 16px;
-    }
-</style>
-
-## `SQL Server`中`LEN`函数不包含尾随字符串
 
 ---
+
+## `SQL Server`中`LEN`函数不包含尾随字符串
 
 `SQL Server`中的`LEN`函数用于计算字符串中所含的字符数，
 但是不包含尾随的空格数
@@ -20,9 +12,9 @@ LEN('1234') -- 4
 LEN('1234   ') -- 4
 ```
 
-## `ArcSDE缓冲区调整`
-
 ---
+
+## `ArcSDE缓冲区调整`
 
 以下引用自南京郭局发来的SDE调优文档
 
@@ -81,9 +73,9 @@ MAXBUFFSIZE    442368
 sdeconfig -o import -f serverconfig.txt -u sde -p sde
 ```
 
-## `ArcCatalog`预览要素类`Network I/O error [SDE.GDB_UserMetaData]`
-
 ---
+
+## `ArcCatalog`预览要素类`Network I/O error [SDE.GDB_UserMetaData]`
 
 在ArcCatalog中预览要素类，因为要素类中的数据量太大，绘制缓慢，
 此时来回切换图层，报错`Network I/O error [SDE.GDB_UserMetaData]`  
@@ -92,9 +84,9 @@ sdeconfig -o import -f serverconfig.txt -u sde -p sde
 然后使用`数据管理工具--要素--修复几何`工具对每一个图层进行修复，会分析并修复数据问题，
 如：删除图形为空的要素等；修复完成后将数据拷贝回数据库，再切换便不会报错了
 
-## `Excel`下拉列表设置
-
 ---
+
+## `Excel`下拉列表设置
 
  1. 选择要设置下拉列表的单元格，菜单栏中选择`数据--数据验证`
 
@@ -109,10 +101,9 @@ sdeconfig -o import -f serverconfig.txt -u sde -p sde
      - 输入列表名称，形如：=MyList，其中列表名称可以在`公式--名称管理器`中查看，
        可以通过在表格中选择数据来源范围，然后单击`公式--根据所选内容创建`来创建列表
 
+---
 
 ## 操作系统已经向 SQL Server 返回了错误 21(设备未就绪。)
-
----
 
 昨天服务器以外断点，今天再打开应用的时候就报错
 
@@ -170,9 +161,9 @@ dbcc checkdb(@databasename,REPAIR_REBUILD)
 exec sp_dboption @databasename, N'single', N'false'--将目标数据库置为多用户状态
 ```
 
-## SQL Server 部署CLR程序集错误`6218`
-
 ---
+
+## SQL Server 部署CLR程序集错误`6218`
 
 Visual Studio 2015中开发的SQL Server项目，添加了用户自定义函数，需要部署到SQL Server 2005上，
 在部署时报错：
@@ -190,9 +181,9 @@ ALTER ASSEMBLY [SqlRegExp]
 
 再次发布即可
 
-## `IPC`访问服务器报错`不允许一个用户使用一个以上用户名与服务器或共享资源的多重连接...`
-
 ---
+
+## `IPC`访问服务器报错`不允许一个用户使用一个以上用户名与服务器或共享资源的多重连接...`
 
 利用`IPC`方式访问服务器磁盘文件时（如：`\\192.168.5.XX\d$`），报错
 
