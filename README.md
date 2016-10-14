@@ -25,4 +25,4 @@
  - [Pandoc中的MarkDown语法](Study%20Notes/Pandoc%20Markdown.md)
  - [pymssql连接数据库基础](Study%20Notes/pymssql_basic.md)
  - [Anaconada使用入门](Study%20Notes/anaconda_basic.md)
- - 利用Github Pages建立仓库“门面”
+ - [利用Github Pages建立仓库“门面”](Study%20Notes/github_pages_basic.md)
