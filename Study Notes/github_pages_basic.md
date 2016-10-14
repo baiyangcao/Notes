@@ -63,6 +63,6 @@ Github Pages发布的页面统一使用`github.io`域名，网站名称一般为
 并设置相对应的Github Pages即可
 
 > 参考连接：  
-> <https://help.github.com/articles/what-is-github-pages/>
+> <https://help.github.com/articles/what-is-github-pages/>  
 > <https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/>  
 > <https://help.github.com/articles/creating-pages-with-the-automatic-generator/>
