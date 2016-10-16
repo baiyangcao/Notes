@@ -1,12 +1,4 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-<style>
-    body {
-        margin: 0 200px;
-    }
-    * {
-        font-size: 16px;
-    }
-</style>
 <!--<script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
 
@@ -181,13 +173,11 @@ Pandoc默认每个标题都定义了引用链接，故对于标题`# 标题1`，
 代码块以三个或三个以上的`~`符号行开始，以等于或多于开始行`~`个数符号行结束，
 若是代码块中含有`~`，只需使开始行和结束行中的`~`符号个数多于代码块中的即可
 
-```
-~~~~~~~
-~~~~~
-code here
-~~~~~
-~~~~~~~
-```
+    ~~~~~
+    ~~~~
+    code here
+    ~~~~
+    ~~~~~~
 
 #### Extension: `backtick_code_blocks`
 
@@ -197,37 +187,33 @@ code here
 
 与标题标识符相同，在波浪线或反引号代码块的首行添加属性即可，如下：
 
-```
-~~~ { #id .cs .numberLines }
-using System;
-
-public class Program
-{
-    public static void Main() 
+    ~~~ { #id .cs .numberLines }
+    using System;
+    
+    public class Program
     {
-        Console.Write('Hello World!');
+        public static void Main() 
+        {
+            Console.Write('Hello World!');
+        }
     }
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 如上代码中添加的`cs`类可以用于代码HTML和LaTex输出的代码高亮，
 pandoc所支持高亮的语言可以通过在命令行中输入`pandoc --version`查看，
 除了上述方式设置代码块的高亮语言，也可通过如下方式设置
 
-~~~~~~~~
-```cs
-using System;
-
-public class Program
-{
-    public static void Main() 
+    ```cs
+    using System;
+    
+    public class Program
     {
-        Console.Write('Hello World!');
+        public static void Main() 
+        {
+            Console.Write('Hello World!');
+        }
     }
-}
-```
-~~~~~~~~
+    ```
 
 ## 行文本块
 
