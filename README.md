@@ -27,5 +27,5 @@
  - [Anaconada使用入门](Study%20Notes/anaconda_basic.md)
  - [利用Github Pages建立仓库“门面”](Study%20Notes/github_pages_basic.md)
  - [requests快速入门](Study%20Notes/requests_basic.md)
- - argparse使用指南
+ - [argparse使用指南](Study%20Notes/argparse_basic.md)
  - Jekyll使用入门
