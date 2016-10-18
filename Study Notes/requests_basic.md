@@ -116,3 +116,5 @@ r = requests.post(url, headers=headers, data=jsonstring)
      + `r.content`返回二进制格式的响应内容
      + `r.json`把响应内容当做JSON字符串来处理，解码后返回JSON对象
  - `r.cookes`可以获取响应中要设置的cookies 
+
+> 参考链接: <http://docs.python-requests.org/en/master/user/quickstart/>
