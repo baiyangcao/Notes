@@ -249,3 +249,53 @@ C:> lsnrctl status
 > 2. [解决连接Oracle 11g报ORA-01034和ORA-27101的错误](http://www.linuxidc.com/Linux/2012-05/59790.htm)  
 > 3. [pfile和spfile全攻略](http://wenku.baidu.com/link?url=dZK2zvpnXAgoaQRxexRFOHWyZTRlFWks0oef08VrNqFBDJsQ35ycJ2ZrqsJF5SSpYjgGHim4JEP908sa54AWCKRfubP-WPsC_2_by4STqyW)  
 > 4. [oracle错误实践之一：ora-00847](http://blog.sina.com.cn/s/blog_7e662b4a0100vbpg.html)
+
+---
+
+## `ORA-25153`: Temporary Tablespace is Empty
+
+今天在Oracle数据库上进行查询时报错：
+
+```
+`ORA-25153`: Temporary Tablespace is Empty
+```
+
+### 原因排查：
+
+ 1. 用户临时表空间是否指定：
+   
+   ```
+   SQL> select username,temporary_tablespace from dba_users where username='<username>';
+   ```
+   
+   查询到结果为`TEMP`表空间
+
+  2. 查询表空间是否为ONLINE：
+
+    ```
+    SQL> select tablespace_name, file_name from dba_temp_files;
+    ```
+
+    查询结果为ONLINE
+
+  3. 查询是否指定表空间数据文件：
+
+    ```
+    SQL> select tablespace_name, file_name from dba_temp_files;
+    ```
+
+    没有查询到结果，说明没有指定的表空间文件
+
+### 解决办法：
+
+为表空间添加对应的数据文件，首先查找当前数据库中数据文件的存放位置：
+
+```
+SQL> select name from v$datafile;
+```
+
+随意找一个就可以，一般数据文件都会放在同一个目录下，然后为`TEMP`临时表空间添加数据文件：
+
+```
+SQL> alter tablespace TEMP add datafile '<dir>/temp.dbf';
+```
