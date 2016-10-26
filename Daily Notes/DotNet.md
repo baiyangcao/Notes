@@ -245,7 +245,7 @@ Internet Explorer无法打开该Internet站点。请求的站点不可用，或�
 1. 客户端：注册表增加下列DWORD条目BypassSSLNoCacheCheck，值设置为1，  
    **HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\BypassSSLNoCacheCheck**
 
-2. 若无法修改服务端，可以通过修改服务端返回的HTTP请求头来修复，
+2. 若无法修改客户端，可以通过修改服务端返回的HTTP请求头来修复，
    HTTP response Header中的`Cache-Control`和`Pragma`不能设置为`no-cache`
    小生用的APS.NET API，做的如下修改：
 
@@ -257,4 +257,48 @@ response.Header.Add("Cache-Control", "public");
 > [关于IE下用HTTPS无法下载/打开文件](http://www.51testing.com/html/65/160865-209104.html)  
 > [KB812935 使用 HTTPS URL 打开的 Office 文档或 PDF 文件时出现"无法下载 Internet Explorer"错误信息](https://support.microsoft.com/zh-cn/kb/812935)  
 > [KB815313 禁止缓存通过 SSL 下载活动文档时](https://support.microsoft.com/zh-cn/kb/815313)  
-> [KB316431 PRB：Internet Explorer 无法从 SSL Web 站点打开 Office 文档](https://support.microsoft.com/zh-cn/kb/316431)  
+> [KB316431 PRB：Internet Explorer 无法从 SSL Web 站点打开 Office 文档](https://support.microsoft.com/zh-cn/kb/316431)
+
+---
+
+## EntityFramework使用SQLite数据库
+
+EF6可以使用`System.Data.SQLite`库连接SQLite数据库，**但是并不能支持Code First功能**  
+
+使用nuget安装`Install-Package System.Data.SQLite`会自动安装，然后会自动在配置文件中添加一些配置，
+手动在配置中加入链接字符串，注意使用`providerName="System.Data.SQLite.EF6"`，
+链接字符串中的`|DataDirectory|`表示`App_Data`文件夹：
+
+```
+<connectionString>
+  <add name="SqliteTest" connectionString="data source=|DataDirectory|\SqliteTest.db" providerName="System.Data.SQLite.EF6" />
+</connectionString>
+```
+
+这里需要注意，直接使用默认的配置文件会报错：
+
+```
+Unable to determine the provider name for provider factory of type 'System.Data.SQLite.SQLiteFactory'. 
+Make sure that the ADO.NET provider is installed or registered in the application config.
+```
+
+需要做如下修改：
+
+  1. `DbProviderFactories`节点下的**两个**`invariantName="System.Data.SQLite"`
+     改为`invariantName="System.Data.SQLite.EF6"`
+  2. `provider`节点下添加如下节点：
+    
+    ```
+    <provider invariantName="System.Data.SQLite" type="System.Data.SQLite.EF6.SQLiteProviderServices, System.Data.SQLite.EF6" />
+    ```
+
+当然即使做了这些更改还是会报错`无法加载SQLite.Interop.dll`，
+其实在安装的NuGet包中就含有`SQLite.Interop.dll`文件，在packages\System.Data.SQLite.Core.1.0.94.0\build文件夹下，
+我们可以在bin文件夹的x64或者x86文件夹下找到对应版本，所以可以将程序的目标平台改为x86即可运行，
+或者按照Any CPU的配置发布，配置在IIS中也是可以运行的。  
+  
+不过EntityFramework和SQLite用起来真的是心累啊。。。
+
+> 参考链接：  
+> <https://damienbod.com/2013/11/18/using-sqlite-with-entity-framework-6-and-the-repository-pattern/>
+> <http://www.csdn123.com/html/topnews201408/51/4651.htm>
