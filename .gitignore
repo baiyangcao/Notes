@@ -1,0 +1,4 @@
+*.html
+*.pdf
+
+/node_modules/
