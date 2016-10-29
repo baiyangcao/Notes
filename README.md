@@ -9,6 +9,7 @@
  - [DotNet](Daily%20Notes/DotNet.md)
  - [JavaScript](Daily%20Notes/Javascript.md)
  - [Oracle](Daily%20Notes/Oracle.md)
+ - [Linux](Daily%20Notes/Linux.md)
  - [其他](Daily%20Notes/Other.md)
 
 ### 读书笔记
