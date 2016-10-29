@@ -30,4 +30,4 @@
  - [requests快速入门](Study%20Notes/requests_basic.md)
  - [argparse使用指南](Study%20Notes/argparse_basic.md)
  - [Jekyll使用入门](Study%20Notes/jekyll_basic.md)
- - AutoHotKey快速入门
+ - [AutoHotKey快速入门](Study%20Notes/autohotkey_basic.md)
