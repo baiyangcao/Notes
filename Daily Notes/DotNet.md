@@ -302,3 +302,39 @@ Make sure that the ADO.NET provider is installed or registered in the applicatio
 > 参考链接：  
 > <https://damienbod.com/2013/11/18/using-sqlite-with-entity-framework-6-and-the-repository-pattern/>
 > <http://www.csdn123.com/html/topnews201408/51/4651.htm>
+
+## EntityFramework使用Oracle数据库
+
+nuget安装`Oracle.ManagedDataAccess`和`Oracle.ManagedDataAccess.EntityFramework`
+
+```
+PM> Install-Package Oracle.ManagedDataAccess
+PM> Install-Package Oracle.ManagedDataAccess.EntityFramework
+```
+
+安装之后app/web.config中会多出很多配置，可以在
+`oracle.manageddataaccess.client/version/dataSources`
+中配置TNSName，然后在链接字符串中作为数据源使用
+
+```
+<connectionStrings>
+    <add name="OracleDbContext" providerName="Oracle.ManagedDataAccess.Client"
+        connectionString="User Id=hr;Password=hr;Data Source=SampleDataSource"/>
+</connectionStrings>
+...
+<oracle.manageddataaccess.client>
+    <version number="*">
+        <dataSources>
+            <!-- Customize these connection alias settings to connect to Oracle DB -->
+            <dataSource alias="SampleDataSource" descriptor="(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL))) " />
+        </dataSources>
+    </version>
+</oracle.manageddataaccess.client>
+```
+
+在Code First创建数据库时可能会出现数据库方案`dbo`问题，在`DbContext.OnModelCreating`
+方法中设置默认方案名即可`modelBuilder.HasDefaultSchema(“Schema名”);`
+
+> 参考链接：  
+> <http://www.cnblogs.com/wlflovenet/p/4187455.html>  
+> <http://docs.oracle.com/cd/E56485_01/win.121/e55744/entityCodeFirst.htm#ODPNT8314>
