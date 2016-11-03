@@ -338,3 +338,19 @@ PM> Install-Package Oracle.ManagedDataAccess.EntityFramework
 > 参考链接：  
 > <http://www.cnblogs.com/wlflovenet/p/4187455.html>  
 > <http://docs.oracle.com/cd/E56485_01/win.121/e55744/entityCodeFirst.htm#ODPNT8314>
+
+## EntityFramework首次加载慢问题解决
+
+在程序启动时加载所有的Model，在`Application_Start`方法中添加
+
+```
+using (var dbcontext = new CnblogsDbContext())
+{
+    var objectContext = ((IObjectContextAdapter)dbcontext).ObjectContext;
+    var mappingCollection = (StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection(DataSpace.CSSpace);
+    mappingCollection.GenerateViews(new List<EdmSchemaError>());
+}
+```
+
+> 参考链接：  
+> <http://www.cnblogs.com/dudu/p/entity-framework-warm-up.html>
