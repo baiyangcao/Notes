@@ -32,3 +32,4 @@
  - [Jekyll使用入门](Study%20Notes/jekyll_basic.md)
  - [AutoHotKey快速入门](Study%20Notes/autohotkey_basic.md)
  - [SonarQube安装](Study%20Notes/sonarqube_installation.md)
+ - [SonarQube代码分析](Study%20Notes/sonarqube_analyz_code.md)
