@@ -33,3 +33,4 @@
  - [AutoHotKey快速入门](Study%20Notes/autohotkey_basic.md)
  - [SonarQube安装](Study%20Notes/sonarqube_installation.md)
  - [SonarQube代码分析](Study%20Notes/sonarqube_analyz_code.md)
+ - [SonarQube参数](Study%20Notes/sonarqube_analyz_parameter.md)
