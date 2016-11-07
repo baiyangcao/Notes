@@ -35,3 +35,4 @@
  - [SonarQube代码分析](Study%20Notes/sonarqube_analyz_code.md)
  - [SonarQube参数](Study%20Notes/sonarqube_analyz_parameter.md)
  - [Jenkins安装](Study%20Notes/jenkins_installation.md)
+ - [Jenkins与.NET](Study%20Notes/jenkins_dotnet.md)
