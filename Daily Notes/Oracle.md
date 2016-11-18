@@ -321,3 +321,15 @@ USING {connection string/tns name}
 ```
 DROP PUBLIC DATABASE LINK {link name}
 ```
+
+ 3. global_names
+ 
+ 如果数据库参数global_names设置为true，则必须数据库连接的名称{link name}
+ 必须与远程数据库GLOBAL_NAME相同。  
+   
+ global_names参数可以通过`show parameter global_names`得到，
+ 而远程服务器的GLOBAL_NAME可以通过执行SQL语句
+ `SELECT * FROM GLOBAL_NAME`获得。  
+  
+ 当global_names设置为false时，不可以在本地调用远程服务器中不存在
+ 的函数，不仅仅是自定义函数，`UTL_RAW.CAST_TO_RAW`函数也不可以
