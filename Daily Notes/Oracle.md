@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+<!--<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">-->
 
 ---
 
@@ -264,25 +264,25 @@ C:> lsnrctl status
 
  1. 用户临时表空间是否指定：
    
-   ```
-   SQL> select username,temporary_tablespace from dba_users where username='<username>';
-   ```
+```
+SQL> select username,temporary_tablespace from dba_users where username='<username>';
+```
    
    查询到结果为`TEMP`表空间
 
   2. 查询表空间是否为ONLINE：
 
-    ```
-    SQL> select tablespace_name, file_name from dba_temp_files;
-    ```
+```
+SQL> select tablespace_name, file_name from dba_temp_files;
+```
 
     查询结果为ONLINE
 
   3. 查询是否指定表空间数据文件：
 
-    ```
-    SQL> select tablespace_name, file_name from dba_temp_files;
-    ```
+```
+SQL> select tablespace_name, file_name from dba_temp_files;
+```
 
     没有查询到结果，说明没有指定的表空间文件
 
@@ -298,4 +298,26 @@ SQL> select name from v$datafile;
 
 ```
 SQL> alter tablespace TEMP add datafile '<dir>/temp.dbf';
+```
+
+---
+
+##  数据库连接DBLink
+
+ 1. 创建数据库连接
+
+```
+CREATE [PUBLIC] DATABASE LINK {link name}
+CONNECT TO {username} IDENTIFIED BY {password}
+USING {connection string/tns name} 
+```
+
+其中`USING`关键词后面可以是数据库服务器上配置的`TNS name`服务命名，
+或者是在`tnsname.ora`中配置的服务命名对应的连接字符串，如：
+`(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.0.78)(PORT = 1521)) ) (CONNECT_DATA = (SERVICE_NAME = orcl) ) )`
+
+ 2. 删除数据库连接：
+
+```
+DROP PUBLIC DATABASE LINK {link name}
 ```
