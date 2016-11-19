@@ -355,3 +355,25 @@ GRANT EXECUTE ANY PROCEDURE TO XXXX WITH ADMIN OPTION;
 ```
 
 其中XXXX为当前用户名，**注意：一定要带上`WITH ADMIN OPTION`选项`
+
+---
+
+## 更新少量数据也异常的慢（锁处理）
+
+更新少量数据时也异常缓慢，怀疑是对象被锁，执行语句查询当前数据库上锁的对象：
+
+```
+
+SELECT l.session_id sid, s.serial#, l.locked_mode, l.oracle_username,
+  l.os_user_name, s.machine, s.terminal, o.OBJECT_Name, s.logon_time
+FROM v$locked_object l, all_objects o, v$session s
+WHERE l.OBJECT_ID = o.OBJECT_ID
+  AND l.session_id = s.sid
+  ORDER BY sid, s.serial#;
+```
+
+然后关闭对应的进程即可：
+
+```
+ALTER SYSTEM KILL SESSION 'sid,serial#';
+```
