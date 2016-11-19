@@ -333,3 +333,25 @@ DROP PUBLIC DATABASE LINK {link name}
   
  当global_names设置为false时，不可以在本地调用远程服务器中不存在
  的函数，不仅仅是自定义函数，`UTL_RAW.CAST_TO_RAW`函数也不可以
+
+---
+
+## 编译存储过程报错`PLS-00201: identifier 'XXXX.XXX' must be declared`
+
+创建存储过程的编译过程中报错：
+
+```
+PLS-00201: identifier 'XXXX.XXX' must be declared
+```
+
+这是由于在存储过程中调用了其他用户的对象，但是当前用户权限不足所导致，
+只要为用户添加的`ADMIN`权限即可，虽然有些权限已经通过角色授予，
+但是并不能满足操作其他用户的权限，所以需要重新授予权限。  
+  
+如下，授予当前用户执行存储过程的权限：
+
+```
+GRANT EXECUTE ANY PROCEDURE TO XXXX WITH ADMIN OPTION;
+```
+
+其中XXXX为当前用户名，**注意：一定要带上`WITH ADMIN OPTION`选项`
