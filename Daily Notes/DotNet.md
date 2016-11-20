@@ -354,3 +354,25 @@ using (var dbcontext = new CnblogsDbContext())
 
 > 参考链接：  
 > <http://www.cnblogs.com/dudu/p/entity-framework-warm-up.html>
+
+---
+
+## `Response.End`抛出异常`正在终止线程`
+
+在ASP.NET中调用`Response.End`方法抛出ThreadAbortException 异常，异常信息为“正在中止线程”。
+  
+`错误原因：`Response.End 方法终止页的执行，并将此执行切换到应用程序的事件管线中的
+Application_EndRequest 事件,同时抛出ThreadAbortException 异常，异常信息为“正在中止线程”。另外
+Response.Redirect、Server.Transfer方法也会出现这个问题，因为它们内部调用了Response.End 方法。
+
+`解决方法：`使用HttpContext.Current.ApplicationInstance.CompleteRequest 方法以跳过
+Application_EndRequest 事件的代码执行，但是这样其后的代码还会继续执行，所以应该在其后加上return
+来结束方法
+
+```
+HttpContext.Current.ApplicationInstance.CompleteRequest();
+return;
+```
+
+> 参考链接：  
+> <http://www.cnblogs.com/jintianhu/archive/2011/02/16/1952833.html>  
