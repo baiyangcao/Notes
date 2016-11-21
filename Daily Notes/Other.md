@@ -211,3 +211,28 @@ ALTER ASSEMBLY [SqlRegExp]
   
 安装 64 位的 Oracle 客户端，并在环境变量 PATH 中将 64 位客户端的路径调整到
 32 位客户端的前面，再启动服务好使
+
+---
+
+## 同一台机器上安装多个ArcSDE服务
+
+同一台机器上安装多个ArcSDE服务会出现服务都指向一个数据库实例的情况，
+这是在创建第二个服务的时候没有指定`-H SDEHOME`参数的问题。  
+  
+SDE创建服务命令如下：
+
+```
+sdeservice -o create -p <database_admin_password> [-n] [-H <sde_directory>]
+[-d {ORACLE,SID | SQLSERVER,SQLSERVERINSTANCE | DB2,DB2INSTANCE | INFORMIX | POSTGRESQL,PGINSTANCE}]
+[-i <service>] [-u <service_user>] [-P <service_user_password>] [-s <data_source>]
+```
+
+其中的`-H`参数指定的为`SDEHOME`参数，ArcSDE在首次安装的时候会自动设置`SDEHOME`环境变量，
+如：C:\Program Files\ArcGIS\ArcSDE\ora11gexe，安装新服务的时候可以将这个目录复制一份到新的位置，
+作为新服务的`SDEHOME`，如：C:\Program Files\ArcGIS\ArcSDE\ora11gexe2，
+然后执行命令创建服务即可，如：
+
+```
+sdeservice -o create -p sde -n -H "C:\Program Files\ArcGIS\ArcSDE\ora11gexe2"
+-d ORACLE,ORCL -i esri_sde2
+```
