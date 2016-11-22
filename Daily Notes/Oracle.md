@@ -377,3 +377,25 @@ WHERE l.OBJECT_ID = o.OBJECT_ID
 ```
 ALTER SYSTEM KILL SESSION 'sid,serial#';
 ```
+
+## Oracle查询表结构
+
+通过Oracle中的用户表来查询相关信息，`user_tab_cols`, 
+`user_col_comments`, `user_constraints`, `user_cons_columns`  
+  
+ - `user_tab_cols` 用来获取用户表的列信息
+ - `user_col_comments` 用来获取对应用户表列的注释
+ - `user_constraints` 用来获取用户表的约束条件
+ - `user_cons_columns` 获取约束中用户可访问的列
+
+如查询用户所有表的列及相关注释
+
+```
+SELECT a.TABLE_NAME AS 表名, a.COLUMN_NAME AS 列名, a.DATA_TYPE AS 数据类型,
+  a.DATA_LENGTH AS 长度, a.NULLABLE AS 可空, b.COMMENTS AS 注释
+FROM user_tab_columns a
+  LEFT JOIN user_col_comments b
+    ON a.TABLE_NAME = b.TABLE_NAME
+      AND a.COLUMN_NAME = b.COLUMN_NAME
+ORDER BY a.TABLE_NAME, a.COLUMN_ID
+```
