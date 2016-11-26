@@ -399,3 +399,32 @@ FROM user_tab_columns a
       AND a.COLUMN_NAME = b.COLUMN_NAME
 ORDER BY a.TABLE_NAME, a.COLUMN_ID
 ```
+
+## ORACLE赋予用户权限
+
+基本语法：
+
+```
+-- 赋予用户、角色权限
+GRANT {PRIVS, ...} TO {USER/ROLE};
+
+-- 收回用户、角色权限
+REVOKE {PRIVS, ...} FROM {USER/ROLE};
+```
+
+其中权限如基本的`CREATE SESSION`, `SELECT ANY TABLE`,
+`INSERT ANY TABLE`等。  
+  
+若是要赋予用户对另一个用户的操作权限，可以加上`ON`语法，如：
+
+```
+-- 为SYCHY用户赋予SYBDC用户下FOO表的选择、插入、删除权限
+GRANT SELECT, INSERT, UPDATE ON SYBDC.FOO TO SYCHY;
+```
+
+或者要赋予用户对另一个用户的指定列的更新操作，可以使用`UPDATE({COLUMN_NAME})`语法，如：
+
+```
+-- 为SYCHY用户赋予SYBDC用户下TEST表的更新TESTCOLUMN列的权限
+GRANT UPDATE(TESTCOLUMN) ON SYBDC.TEST TO SYCHY;
+```
