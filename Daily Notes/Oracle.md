@@ -428,3 +428,41 @@ GRANT SELECT, INSERT, UPDATE ON SYBDC.FOO TO SYCHY;
 -- 为SYCHY用户赋予SYBDC用户下TEST表的更新TESTCOLUMN列的权限
 GRANT UPDATE(TESTCOLUMN) ON SYBDC.TEST TO SYCHY;
 ```
+
+## 设置定时任务job
+
+创建定时任务job，使用`DBMS_JOB.SUBMIT`存储过程创建，同时返回一个`jobid`参数
+
+```
+PROCEDURE Submit(job OUT binary_ineger, What IN varchar2, next_date IN date, 
+  interval IN varchar2, no_parse IN boolean:=FALSE)
+```
+
+ - `job` 为返回参数，表示定时任务在数据库中的唯一标识
+ - `What` 表示在任务执行时将要被执行的PL/SQL代码块
+ - `next_date` 表示执行任务的时间
+ - `interval` 表示定时执行任务的时间间隔
+ - `no_parse` 表示执行语法分析的时间，FALSE表示立即执行语法分析，TRUE表示在第一次执行时进行语法分析
+
+```
+DECLARE
+  jobid NUMBER;
+BEGIN
+  DBMS_JOB.SUBMIT(jobid, 'DATAEXPORT;', TO_DATE('2016-11-27', 'yyyy-MM-dd'), 'TRUNC(SYSDATE+1)');
+END;
+```
+
+表示在2016-11-27凌晨0点执行存储过程DATAEXPORT，并且以后每天执行一次。
+  
+另外，可以是`DBMS_JOB.REMOVE`方法删除job，使用`DBMS_JOB.RUN`手动执行job，
+这两个存储过程都需要一个`job`参数，为创建job时所产生的唯一标识。  
+  
+如果要查看当前系统中存在的job，可以使用如下表:
+
+```
+SELECT * FROM dba_jobs;
+SELECT * FROM all_jobs;
+SELECT * FROM user_jobs;
+-- 查看正在执行的job
+SELECT * FROM dba_jobs_running;
+```
