@@ -466,3 +466,38 @@ SELECT * FROM user_jobs;
 -- 查看正在执行的job
 SELECT * FROM dba_jobs_running;
 ```
+
+## ORA-24247 网络访问被访问控制列表(ACL)拒绝
+
+使用`utl_http.request(url)`函数发起HTTP请求报错，原因是没有设置ACL，
+进行如下设置：
+
+```
+BEGIN
+  -- 创建ACL
+  DBMS_NETWORK_ACL_ADMIN.create_acl(acl => 'httprequestpermission.xml',
+                                    description => 'Normal Access',
+                                    -- 要授权的角色
+                                    principal => 'CONNECT',
+                                    is_grant => TRUE,
+                                    -- PRIVILEGE需要大写
+                                    PRIVILEGE => 'connect',
+                                    start_date => NULL,
+                                    end_date => NULL);
+  -- 一定要提交                                 
+  COMMIT;
+  dbms_network_acl_admin.assign_acl(acl => 'httprequestpermission.xml',
+                                    host => '192.168.5.*',
+                                    lower_port => 80,
+                                    upper_port => NULL);
+  COMMIT;  
+  DBMS_NETWORK_ACL_ADMIN.add_privilege(acl => 'httprequestpermission.xml',
+                                       -- 要赋予访问权限的用户或角色
+                                       principal => 'SYBDCSXK',
+                                       is_grant => TRUE,
+                                       privilege => 'connect',
+                                       start_date => NULL,
+                                       end_date => NULL);
+  COMMIT;
+END;
+```
