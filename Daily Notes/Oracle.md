@@ -378,6 +378,8 @@ WHERE l.OBJECT_ID = o.OBJECT_ID
 ALTER SYSTEM KILL SESSION 'sid,serial#';
 ```
 
+---
+
 ## Oracle查询表结构
 
 通过Oracle中的用户表来查询相关信息，`user_tab_cols`, 
@@ -399,6 +401,8 @@ FROM user_tab_columns a
       AND a.COLUMN_NAME = b.COLUMN_NAME
 ORDER BY a.TABLE_NAME, a.COLUMN_ID
 ```
+
+---
 
 ## ORACLE赋予用户权限
 
@@ -428,6 +432,8 @@ GRANT SELECT, INSERT, UPDATE ON SYBDC.FOO TO SYCHY;
 -- 为SYCHY用户赋予SYBDC用户下TEST表的更新TESTCOLUMN列的权限
 GRANT UPDATE(TESTCOLUMN) ON SYBDC.TEST TO SYCHY;
 ```
+
+---
 
 ## 设置定时任务job
 
@@ -467,6 +473,8 @@ SELECT * FROM user_jobs;
 SELECT * FROM dba_jobs_running;
 ```
 
+---
+
 ## ORA-24247 网络访问被访问控制列表(ACL)拒绝
 
 使用`utl_http.request(url)`函数发起HTTP请求报错，原因是没有设置ACL，
@@ -501,3 +509,15 @@ BEGIN
   COMMIT;
 END;
 ```
+
+---
+
+## `ORA-04062`: timestamp of procedure "" has been changed
+
+原因： 尝试执行已经过期的远程存储过程；
+
+解决办法： 重新编译调用存储过程；
+
+例：本地存储过程A调用远程存储过程B，首次编译A的时候并不会报错，
+然后编译B，之后再次编译A的时候就会报错，原因是A中保存的B编译的时间戳与当前B的编译时间不符，
+所以只要重新编译A存储过程即可。
