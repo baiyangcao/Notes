@@ -536,3 +536,38 @@ PRAGMA AUTONOMOUS_TRANSACTION;
 BEGIN
 END;
 ```
+
+---
+
+## 发起Http Post请求
+
+```
+DECLARE
+  data VARCHAR2(8000);
+  req UTL_HTTP.REQ;
+  resp UTL_HTTP.RESP;
+  bresult BLOB;
+BEGIN
+    req := UTL_HTTP.BEGIN_REQUEST(url => url, method => 'POST');
+    UTL_HTTP.SET_HEADER(r => req, name => 'Content-Type', value => 'application/x-www-form-urlencoded');
+    UTL_HTTP.SET_HEADER(r => req, name => 'Content-Length', value => LENGTHB(data));
+    UTL_HTTP.WRITE_RAW(r => req, data => UTL_RAW.CAST_TO_RAW(CONVERT(data, 'UTF8')));
+    resp := UTL_HTTP.GET_RESPONSE(req);
+    UTL_HTTP.READ_RAW(resp, bresult);
+    result := UTL_RAW.CAST_TO_VARCHAR2(bresult);
+    UTL_HTTP.END_RESPONSE(resp);
+  EXCEPTION
+    WHEN UTL_HTTP.END_OF_BODY THEN
+      UTL_HTTP.END_RESPONSE(resp);
+  END;
+```
+
+这里有些需要注意的问题：
+
+ - 使用`WRITE_RAW/READ_RAW`方法设置和读取数据，而不是`WRITE_TEXT/READ_TEXT`方法，
+   因为后者会把字符串转换成服务器的字符集，而我们一般的请求Request的编码为UTF-8
+
+ - 声明的变量类型应该是`VARCHAR2`而不是`NVARCHAR2`，否则在后台webservice中获取到的英文字符会自动补上`\0`，
+   如`data`变量值为`BZF=A`到了后台中获取的为`\0B\0Z\0F=\0A`，
+   这是因为`NVARCHAR2`中的字符都是以中文字符的形式保存，而对于英文字符则会自动补`\0`，
+   这也就是为什么在`NVARCHAR2(10)`中可以保存十个中文字符或十个英文字符了。
