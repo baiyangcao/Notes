@@ -571,3 +571,26 @@ BEGIN
    如`data`变量值为`BZF=A`到了后台中获取的为`\0B\0Z\0F=\0A`，
    这是因为`NVARCHAR2`中的字符都是以中文字符的形式保存，而对于英文字符则会自动补`\0`，
    这也就是为什么在`NVARCHAR2(10)`中可以保存十个中文字符或十个英文字符了。
+
+---
+
+## `ORU-10027:` buffer overflow, limit of 2000 bytes
+
+使用`DBMS_OUTPUT.PUT_LINE`输出日志信息时报错：
+
+```
+ORA-20000: ORU-10027: buffer overflow, limit of 2000 bytes
+ORA-06512: at "SYS.DBMS_OUTPUT", line 35
+...
+```
+
+这是因为要输出到控制台的大小超出了缓存大小，所以需要设置一下缓存大小，
+使用如下语句：
+
+```
+-- 设置缓存大小为40000
+DBMS_OUTPUT.ENABLE(buffer_size => 40000);
+
+-- 不设置缓存大小
+DBMS_OUTPUT.ENABLE(buffer_size => null);
+```
