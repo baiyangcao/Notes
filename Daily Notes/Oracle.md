@@ -594,3 +594,32 @@ DBMS_OUTPUT.ENABLE(buffer_size => 40000);
 -- 不设置缓存大小
 DBMS_OUTPUT.ENABLE(buffer_size => null);
 ```
+
+---
+
+## SQL统计添加合计行
+
+```
+WITH students AS (
+  SELECT 'student1' NAME, 1 AS VALUE
+  UNION ALL
+  SELECT 'student2' NAME, 1 AS VALUE
+  UNION ALL
+  SELECT 'student2' NAME, 1 AS VALUE
+  UNION ALL
+  SELECT 'student3' NAME, 1 AS VALUE
+  UNION ALL
+  SELECT 'student3' NAME, 1 AS VALUE
+  UNION ALL
+  SELECT 'student3' NAME, 1 AS VALUE
+)
+SELECT DECODE(GROUPING(NAME), 1, '总计', NAME), SUM(VALUE)
+FROM student
+GROUP BY ROLLUP((NAME, VALUE));
+
+---
+student1  1
+student2  2
+student3  3
+总计       6
+```
