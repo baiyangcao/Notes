@@ -72,3 +72,16 @@
 ```
 
 这样修改完成时候只要在命令面板中输入`task dot`即可以生成图片了
+
+## 设置构建时自动执行Task
+
+虽然只要简单的输入一条`task dot`命令就可以自动生成十分方便，
+但是懒人... 所以...继续阅读文档发现，可以在使用快捷键`ctrl+shift+B`
+构建项目时自动执行命令，而且只要在命令中加入一个参数`isBuildCommand`
+设置为`true`即可。  
+  
+至此，只要使用快捷键`ctrl+shift+B`就可以实现自动生成命令~~~
+
+
+> 参考链接:  
+> <https://code.visualstudio.com/docs/languages/markdown#_automating-markdown-compilation>
