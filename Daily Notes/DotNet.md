@@ -376,3 +376,29 @@ return;
 
 > 参考链接：  
 > <http://www.cnblogs.com/jintianhu/archive/2011/02/16/1952833.html>  
+
+---
+
+## EntityFramework报错`The underlying provider failed on Open.`
+
+在Visual Studio中启动应用程序没有问题，但是将网站部署到IIS中之后却报错：
+
+```
+The underlying provider failed on Open.
+```
+
+底层数据库使用的是SQL Server，后来查到是数据库连接的问题，数据库原来连接为：
+
+```
+Server=localhost; Database=SimpleTaskSystem; Trusted_Connection=True;
+```
+
+默认为Windows集成身份验证模式，而IIS使用的并不是管理员账户启动应用程序，故不能打开数据库，
+将数据库连接改为按照数据库用户密码登录的设置即可，如下：
+
+```
+Server=localhost; Database=SimpleTaskSystem; User ID=sa; Password=XXXXX;
+```
+
+> 参考链接：
+> <http://stackoverflow.com/questions/2475008/mssql-error-the-underlying-provider-failed-on-open?page=1&tab=votes#tab-top>
