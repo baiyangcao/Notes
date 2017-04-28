@@ -24,6 +24,8 @@
 通过网络等相关途径自学技术的笔记
 
 
+ - [Dojo初探](https://baiyangcao.github.io/notes/2017/04/21/hello-dojo.html)
+
  - [使用 Python 操作 Git 版本库 - GitPython](https://baiyangcao.github.io/notes/2017/04/11/gitpython-tutorial.html)
 
  - [Git 应用补丁报错 “sha1 information is lacking or useless”](https://baiyangcao.github.io/notes/2017/04/05/git-sha1-lack.html)
@@ -33,4 +35,64 @@
  - [Jekyll 使用 Rouge 主题](https://baiyangcao.github.io/notes/2017/03/28/jekyll-rouge.html)
 
  - [Graphviz - dot用法入门](https://baiyangcao.github.io/notes/2017/03/23/graphviz-dot.html)
+
+ - [GitHub针对同一版本库创建多个Pull Request](https://baiyangcao.github.io/notes/2017/03/20/github-multi-pull-request.html)
+
+ - [git rebase 修改提交](https://baiyangcao.github.io/notes/2017/03/19/git-rebase.html)
+
+ - [ORA-00933 SQL命令未正确结束 INSERT INTO ... SELECT](https://baiyangcao.github.io/notes/2017/03/18/ora-00933.html)
+
+ - [Angular-Cli中引用第三方库](https://baiyangcao.github.io/notes/2017/03/15/angular-cli-json.html)
+
+ - [VMWare虚拟机中Ctrl键锁定、粘滞](https://baiyangcao.github.io/notes/2017/03/14/vmware-ctrl.html)
+
+ - [Github Pages(jekyll)文章标题显示为空](https://baiyangcao.github.io/notes/2017/03/14/jekyll-empty-title.html)
+
+ - [EntityFramework使用SQLite数据库](https://baiyangcao.github.io/notes/2017/03/13/ef-sqlite.html)
+
+ - [Jenkins与.NET](https://baiyangcao.github.io/notes/2017/02/09/jenkins-dotnet.html)
+
+ - [Jenkins 安装](https://baiyangcao.github.io/notes/2017/02/03/jenkins-installation.html)
+
+ - [Windows下安装Jekyll](https://baiyangcao.github.io/notes/2017/01/29/jekyll-windows.html)
+
+ - [Aspose.Pdf合并图片到PDF文件](https://baiyangcao.github.io/notes/2017/01/25/aspose-pdf-image.html)
+
+ - [Aspose.Pdf合并PDF文件](https://baiyangcao.github.io/notes/2017/01/17/aspose-pdf.html)
+
+ - [SonarQube 分析参数](https://baiyangcao.github.io/notes/2017/01/11/sonarqube-analyz-parameter.html)
+
+ - [Oracle 发起 HTTP Post请求](https://baiyangcao.github.io/notes/2017/01/05/oracle-http.html)
+
+ - [Oracle 数据库连接 DBLink](https://baiyangcao.github.io/notes/2016/12/27/oracle-dblink.html)
+
+ - [SonarQube分析代码](https://baiyangcao.github.io/notes/2016/12/16/sonarqube-analyz.html)
+
+ - [ORA-25153 Temporary Tablespace is Empty](https://baiyangcao.github.io/notes/2016/12/15/ora-25153.html)
+
+ - [ORA-12514:TNS:监听程序当前无法识别连接描述符中请求的服务_监听程序不支持服务](https://baiyangcao.github.io/notes/2016/12/11/ora-12514.html)
+
+ - [缓冲区性能调优](https://baiyangcao.github.io/notes/2016/12/08/oracle-buffer.html)
+
+ - [Sonar Installtion](https://baiyangcao.github.io/notes/2016/12/05/sonar-installtion.html)
+
+ - [修改数据库连接数,游标数](https://baiyangcao.github.io/notes/2016/11/24/modify-session.html)
+
+ - [ORA-00064...修改Processes参数后重启报错](https://baiyangcao.github.io/notes/2016/11/16/ora-00064.html)
+
+ - [AutoHotKey快速入门](https://baiyangcao.github.io/notes/2016/10/29/autohotkey-basic.html)
+
+ - [Jekyll 使用入门](https://baiyangcao.github.io/notes/2016/10/21/jekyll-basic.html)
+
+ - [argparse 使用指南](https://baiyangcao.github.io/notes/2016/10/18/argparse-basic.html)
+
+ - [requests快速入门](https://baiyangcao.github.io/notes/2016/10/17/requests-basic.html)
+
+ - [Pandoc中的Markdown语法](https://baiyangcao.github.io/notes/2016/10/16/pandoc-markdown.html)
+
+ - [利用Github Pages建立仓库“门面”](https://baiyangcao.github.io/notes/2016/10/14/github-pages-basic.html)
+
+ - [Anaconda使用入门](https://baiyangcao.github.io/notes/2016/10/13/anaconda-basic.html)
+
+ - [Python连接SQL Server数据库 - pymssql使用基础](https://baiyangcao.github.io/notes/2016/10/12/pymssql-basic.html)
  
