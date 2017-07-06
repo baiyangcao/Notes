@@ -24,6 +24,12 @@
 通过网络等相关途径自学技术的笔记
 
 
+ - [kotlin 协程 —— 取消与超时](https://baiyangcao.github.io/notes/2017/06/26/kotlin-coroutines-cancel-timeout.html)
+
+ - [kotlin 协程基础](https://baiyangcao.github.io/notes/2017/06/20/kotlin-coroutines.html)
+
+ - [再跳一坑--Go](https://baiyangcao.github.io/notes/2017/05/28/go-tour.html)
+
  - [Dojo初探](https://baiyangcao.github.io/notes/2017/04/21/hello-dojo.html)
 
  - [使用 Python 操作 Git 版本库 - GitPython](https://baiyangcao.github.io/notes/2017/04/11/gitpython-tutorial.html)
