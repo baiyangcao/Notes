@@ -24,6 +24,8 @@
 通过网络等相关途径自学技术的笔记
 
 
+ - [MySQL 中 Int 列插入字符串变为 &#39;0&#39;](https://baiyangcao.github.io/notes/2017/07/20/mysql-strict.html)
+
  - [kotlin 协程 —— 取消与超时](https://baiyangcao.github.io/notes/2017/06/26/kotlin-coroutines-cancel-timeout.html)
 
  - [kotlin 协程基础](https://baiyangcao.github.io/notes/2017/06/20/kotlin-coroutines.html)
