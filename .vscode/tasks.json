@@ -1,0 +1,17 @@
+{
+    "version":"2.0.0",
+    "tasks": [
+        {
+            "taskName": "Update Notes",
+            "type": "shell",
+            "command": "scrapy runspider ${workspaceRoot}/notesbuilder.py",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher":"$gcc"
+        }
+    ]
+}
