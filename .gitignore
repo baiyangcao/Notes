@@ -4,5 +4,4 @@
 /node_modules/
 !templates/
 __pycache__/
-.vscode/
 oracle/
