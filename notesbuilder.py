@@ -25,6 +25,10 @@ class NotesSpider(scrapy.Spider):
             autoescape=select_autoescape(['html', 'md'])
         )
 
+        # read the arguments
+        if self.repo is not None:
+            self.repo_path = self.repo
+
     def parse(self, response):
         for post in response.css('#main-content h1'):
             json = {
@@ -84,8 +88,10 @@ class NotesSpider(scrapy.Spider):
         index = repo.index
 
         # commit
-        index.add([self.readme_path, self.index_path])
-        index.commit('update readme.md and index.html automatically')
+        index.add([self.readme_path])
+        index.commit('update readme.md automatically')
+        index.add([self.index_path])
+        index.commit('update index.html automatically')
 
         # push
         remote = repo.remote('github')
